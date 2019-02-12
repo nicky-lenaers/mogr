@@ -5,8 +5,10 @@ MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.
 - [ ] Add Code Coverage
 - [ ] Add CircleCI
 - [ ] Add Unit Tests
+- [ ] Add [TS Linter](https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c)
 - [ ] Add Documentation Generator
 - [ ] Finish README
+  - [ ] Add Logo
   - [ ] Add Badges
   - [ ] Add ToC
   - [ ] Add Medium Article Link
