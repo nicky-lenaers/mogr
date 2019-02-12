@@ -1,0 +1,42 @@
+{
+  "name": "@nicky-lenaers/mogr",
+  "version": "0.1.0",
+  "description": "MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicky-lenaers/mogr.git"
+  },
+  "keywords": [
+    "graphql",
+    "mongoose"
+  ],
+  "files": [
+    "lib/**/*"
+  ],
+  "private": false,
+  "author": "Nicky Lenaers <nicky@newgameplus.online>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicky-lenaers/mogr/issues"
+  },
+  "homepage": "https://github.com/nicky-lenaers/mogr#readme",
+  "dependencies": {
+    "graphql": "^14.1.1",
+    "mongoose": "^5.4.11"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-angular": "^7.5.0",
+    "@types/graphql": "^14.0.5",
+    "@types/mongoose": "^5.3.12",
+    "@types/webpack": "^4.4.24",
+    "husky": "^1.3.1",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3"
+  }
+}
