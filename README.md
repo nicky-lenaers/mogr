@@ -6,7 +6,6 @@ MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.
 - [ ] Add CircleCI
 - [ ] Add Unit Tests
 - [ ] Add Documentation Generator
-- [ ] Commit Linting
 - [ ] Finish README
   - [ ] Add Badges
   - [ ] Add ToC
