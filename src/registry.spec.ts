@@ -1,7 +1,8 @@
 import { FieldNode, GraphQLResolveInfo } from 'graphql';
 import { mockServer } from 'graphql-tools';
 import { Connection, createConnection } from 'mongoose';
-import { simpleModel, TestSet } from '../jest/models';
+import { nestedCase } from '../jest/tc-nested';
+import { simpleCase } from '../jest/tc-simple';
 import * as projectionModule from './project';
 import { Registry } from './registry';
 
@@ -9,13 +10,9 @@ describe('registry', () => {
 
   let connection: Connection;
   let registry: Registry;
-  let testSet: TestSet;
 
-  const fields = ['foo', 'bar'];
-
-  beforeAll(() => {
+  beforeEach(() => {
     connection = createConnection();
-    testSet = simpleModel(connection);
     registry = new Registry(connection);
   });
 
@@ -27,49 +24,92 @@ describe('registry', () => {
 
     let info: GraphQLResolveInfo;
 
-    const spy = jest.spyOn(projectionModule, 'getProjection');
-    const server = mockServer(testSet.schema, {
-      String: (...args) => {
+    const fields = ['foo', 'bar'];
+    const tc = simpleCase(connection);
+    const spy = jest
+      .spyOn(projectionModule, 'getProjection')
+      .mockImplementation(jest.fn());
+
+    const server = mockServer(tc.schema, {
+      SimpleType: (...args) => {
         info = args[args.length - 1];
-        registry.project(info, testSet.model.modelName);
-        return testSet.response;
+        registry.project(info, tc.model.modelName);
+        return tc.response;
       }
     });
 
     await server.query(`
-      query testQuery {
-        testQuery {
+      query simple {
+        simple {
           ${fields.join(',')}
         }
       }
     `);
 
-    const operationSelection = info.operation.selectionSet.selections[0] as FieldNode;
+    const opFieldNode = info.operation.selectionSet.selections[0] as FieldNode;
     const { fragments } = info;
 
     expect(spy).toHaveBeenCalled();
-    expect(spy).toBeCalledWith(
-      operationSelection.selectionSet.selections,
+    expect(spy).toHaveBeenCalledWith(
+      opFieldNode.selectionSet.selections,
       fragments,
-      testSet.model.modelName,
+      tc.model.modelName,
       registry.registryMap
     );
   });
 
-  /** @todo(now) finish tests */
-  it('should handle root path offet', () => {
+  it('should handle root path offset for projection', async () => {
+
+    let info: GraphQLResolveInfo;
+
+    const tc = nestedCase(connection);
+
+    const spy = jest
+      .spyOn(projectionModule, 'getProjection')
+      .mockImplementation(jest.fn());
+
+    const server = mockServer(tc.schema, {
+      NestedType: (...args) => {
+        info = args[args.length - 1];
+        registry.project(info, tc.model.modelName, tc.offset);
+        return tc.response;
+      }
+    });
+
+    await server.query(`
+      query nested {
+        nested {
+          parent {
+            foo,
+            bar
+          }
+        }
+      }
+    `);
+
+    const opFieldNode = info.operation.selectionSet.selections[0] as FieldNode;
+    const offsetFieldNode = opFieldNode.selectionSet.selections
+      .find(s => s.kind === 'Field' && s.name.value === tc.offset) as FieldNode;
+
+    const { fragments } = info;
+
+    expect(spy).toHaveBeenCalledWith(
+      offsetFieldNode.selectionSet.selections,
+      fragments,
+      tc.model.modelName,
+      registry.registryMap
+    );
+  });
+
+  xit('should use gePopulation on register.populate', () => {
 
   });
 
-  it('should recurse on nested schema fields', () => {
+  xit('should handle root path offset for population', async () => {
 
   });
 
-  it('should use gePopulation on register.populate', () => {
-
-  });
-
-  it('should dynamically add unregistered models to the registry', () => {
+  xit('should dynamically add unregistered models to the registry', () => {
 
   });
 })
