@@ -15,6 +15,10 @@ export class Registry {
   private _registryMap: RegistryMap = new Map();
   private _connection: Connection;
 
+  get registryMap() {
+    return this._registryMap;
+  }
+
   constructor(connection: Connection) {
     this._connection = connection;
   }
@@ -59,12 +63,14 @@ export class Registry {
     root: string = ''
   ): string {
 
-    if (!info.fieldNodes[0].selectionSet) return '';
+    const operationSelection: SelectionSetNode =
+      (info.operation.selectionSet.selections[0] as FieldNode)
+        .selectionSet as SelectionSetNode;
 
     const { fragments } = info;
 
     const selections = this._getSelectionsOffsetByPath(
-      info.fieldNodes[0].selectionSet,
+      operationSelection,
       !!root ? root.split('.') : []
     );
 
@@ -75,7 +81,7 @@ export class Registry {
       fragments,
       modelName,
       this._registryMap
-    );
+    ).trim();
   }
 
   /**
@@ -90,6 +96,10 @@ export class Registry {
     modelName: string,
     root: string = ''
   ): ModelPopulateOptions[] {
+
+    /**
+     * @todo(now) use 'operation' here like in project function
+     */
 
     if (!info.fieldNodes[0].selectionSet) return [];
 
