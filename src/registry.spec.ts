@@ -101,6 +101,7 @@ describe('registry', () => {
     );
   });
 
+  /** @todo finish tests */
   xit('should use gePopulation on register.populate', () => {
 
   });
