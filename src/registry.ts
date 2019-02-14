@@ -15,6 +15,10 @@ export class Registry {
   private _registryMap: RegistryMap = new Map();
   private _connection: Connection;
 
+  get registryMap() {
+    return this._registryMap;
+  }
+
   constructor(connection: Connection) {
     this._connection = connection;
   }
@@ -59,14 +63,8 @@ export class Registry {
     root: string = ''
   ): string {
 
-    if (!info.fieldNodes[0].selectionSet) return '';
-
+    const selections = this._getSelections(info, root);
     const { fragments } = info;
-
-    const selections = this._getSelectionsOffsetByPath(
-      info.fieldNodes[0].selectionSet,
-      !!root ? root.split('.') : []
-    );
 
     this._addToRegistry(modelName);
 
@@ -75,7 +73,7 @@ export class Registry {
       fragments,
       modelName,
       this._registryMap
-    );
+    ).trim();
   }
 
   /**
@@ -91,14 +89,8 @@ export class Registry {
     root: string = ''
   ): ModelPopulateOptions[] {
 
-    if (!info.fieldNodes[0].selectionSet) return [];
-
+    const selections = this._getSelections(info, root);
     const { fragments } = info;
-
-    const selections = this._getSelectionsOffsetByPath(
-      info.fieldNodes[0].selectionSet,
-      !!root ? root.split('.') : []
-    );
 
     this._addToRegistry(modelName);
 
@@ -108,6 +100,24 @@ export class Registry {
       modelName,
       this._connection,
       this._registryMap
+    );
+  }
+
+  /**
+   * Get Selections.
+   *
+   * @param info        GraphQL Resolve Info
+   * @param root        Root Path
+   */
+  private _getSelections(info: GraphQLResolveInfo, root: string) {
+
+    const operationSelection: SelectionSetNode =
+      (info.operation.selectionSet.selections[0] as FieldNode)
+        .selectionSet as SelectionSetNode;
+
+    return this._getSelectionsOffsetByPath(
+      operationSelection,
+      !!root ? root.split('.') : []
     );
   }
 
