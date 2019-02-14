@@ -63,16 +63,8 @@ export class Registry {
     root: string = ''
   ): string {
 
-    const operationSelection: SelectionSetNode =
-      (info.operation.selectionSet.selections[0] as FieldNode)
-        .selectionSet as SelectionSetNode;
-
+    const selections = this._getSelections(info, root);
     const { fragments } = info;
-
-    const selections = this._getSelectionsOffsetByPath(
-      operationSelection,
-      !!root ? root.split('.') : []
-    );
 
     this._addToRegistry(modelName);
 
@@ -97,18 +89,8 @@ export class Registry {
     root: string = ''
   ): ModelPopulateOptions[] {
 
-    /**
-     * @todo(now) use 'operation' here like in project function
-     */
-
-    if (!info.fieldNodes[0].selectionSet) return [];
-
+    const selections = this._getSelections(info, root);
     const { fragments } = info;
-
-    const selections = this._getSelectionsOffsetByPath(
-      info.fieldNodes[0].selectionSet,
-      !!root ? root.split('.') : []
-    );
 
     this._addToRegistry(modelName);
 
@@ -118,6 +100,24 @@ export class Registry {
       modelName,
       this._connection,
       this._registryMap
+    );
+  }
+
+  /**
+   * Get Selections.
+   *
+   * @param info        GraphQL Resolve Info
+   * @param root        Root Path
+   */
+  private _getSelections(info: GraphQLResolveInfo, root: string) {
+
+    const operationSelection: SelectionSetNode =
+      (info.operation.selectionSet.selections[0] as FieldNode)
+        .selectionSet as SelectionSetNode;
+
+    return this._getSelectionsOffsetByPath(
+      operationSelection,
+      !!root ? root.split('.') : []
     );
   }
 

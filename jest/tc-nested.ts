@@ -3,7 +3,7 @@ import { Connection } from 'mongoose';
 import { TestCase } from './tc';
 import { SimpleSchema, SimpleType } from './tc-simple';
 
-interface TestCaseNested {
+interface TestCaseNested extends TestCase {
   offset: string;
 }
 
@@ -45,7 +45,7 @@ export const nestedSchema = new GraphQLSchema({
  * @param connection        Mongoose Connection
  * @returns                 Test Case
  */
-export function nestedCase(connection: Connection): TestCase & TestCaseNested {
+export function nestedCase(connection: Connection): TestCaseNested {
 
   const model = connection.model(
     'SimpleSchema',

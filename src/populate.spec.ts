@@ -1,4 +1,4 @@
-describe('project', () => {
+describe('populate', () => {
 
   xit('should handle GraphQL Fields', () => {
 
