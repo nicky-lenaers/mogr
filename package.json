@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "jest --coverage",
-    "test:watch": "npm run test -- --watchAll",
+    "test:watch": "npm run test -- --watchAll --verbose=false",
     "build": "tsc"
   },
   "repository": {

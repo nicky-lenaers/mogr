@@ -33,7 +33,6 @@ export function getProjection(
           const value = selection.name.value;
           if (value === '__typename') return projection;
 
-          if (!registryMap.has(modelName)) throw new Error(`Model "${modelName}" is not registered`);
           const populatableFields = registryMap.get(modelName) as PopulatableField[];
 
           if (selection.selectionSet && selection.selectionSet.selections) {
@@ -71,30 +70,25 @@ export function getProjection(
 
         case 'InlineFragment':
 
-          return selection.selectionSet && selection.selectionSet.selections
-            ? projection += getProjection(
-              selection.selectionSet.selections,
-              fragments,
-              modelName,
-              registryMap,
-              tree
-            )
-            : projection;
+          return projection += getProjection(
+            selection.selectionSet.selections,
+            fragments,
+            modelName,
+            registryMap,
+            tree
+          );
 
         case 'FragmentSpread':
 
           const fragment = fragments[selection.name.value];
-          if (!fragment) throw new Error(`Unknown Fragment "${selection.name.value}"`);
 
-          return fragment.selectionSet && fragment.selectionSet.selections
-            ? projection += getProjection(
-              fragment.selectionSet.selections,
-              fragments,
-              modelName,
-              registryMap,
-              tree
-            )
-            : projection;
+          return projection += getProjection(
+            fragment.selectionSet.selections,
+            fragments,
+            modelName,
+            registryMap,
+            tree
+          );
       }
     }, '');
 }

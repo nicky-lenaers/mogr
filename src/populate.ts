@@ -99,37 +99,32 @@ export function getPopulation(
         }
 
         case 'InlineFragment': {
-          return selection.selectionSet && selection.selectionSet.selections
-            ? getPopulation(
-              selection.selectionSet.selections,
-              fragments,
-              modelName,
-              connection,
-              registryMap,
-              population,
-              rootTree,
-              localTree
-            )
-            : population;
+          return getPopulation(
+            selection.selectionSet.selections,
+            fragments,
+            modelName,
+            connection,
+            registryMap,
+            population,
+            rootTree,
+            localTree
+          );
         }
 
         case 'FragmentSpread': {
 
           const fragment = fragments[selection.name.value];
-          if (!fragment) throw new Error(`Unknown Fragment "${selection.name.value}"`);
 
-          return fragment.selectionSet && fragment.selectionSet.selections
-            ? getPopulation(
-              fragment.selectionSet.selections,
-              fragments,
-              modelName,
-              connection,
-              registryMap,
-              population,
-              rootTree,
-              localTree
-            )
-            : population;
+          return getPopulation(
+            fragment.selectionSet.selections,
+            fragments,
+            modelName,
+            connection,
+            registryMap,
+            population,
+            rootTree,
+            localTree
+          );
         }
       }
     })

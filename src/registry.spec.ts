@@ -1,44 +1,53 @@
 import { FieldNode, GraphQLResolveInfo } from 'graphql';
 import { mockServer } from 'graphql-tools';
 import { Connection, createConnection } from 'mongoose';
+import { complexRefCase } from '../jest/tc-complex-ref';
 import { nestedCase } from '../jest/tc-nested';
+import { refCase } from '../jest/tc-ref';
+import { selfRefCase } from '../jest/tc-self-ref';
 import { simpleCase } from '../jest/tc-simple';
+import * as populationModule from './populate';
 import * as projectionModule from './project';
 import { Registry } from './registry';
-import { nestedRefCase } from '../jest/tc-nested-ref';
-import { nestedSelfRefCase } from '../jest/tc-nested-self-ref';
 
 describe('registry', () => {
 
   let connection: Connection;
   let registry: Registry;
   let getProjectionSpy: jest.Mock;
+  let getPopulationSpy: jest.Mock;
 
   beforeAll(() => {
+
+    connection = createConnection();
+
     getProjectionSpy = jest
       .spyOn(projectionModule, 'getProjection')
-      .mockImplementation(jest.fn());
+      .mockImplementation((...args) => '');
+
+    getPopulationSpy = jest
+      .spyOn(populationModule, 'getPopulation')
+      .mockImplementation((...args) => []);
   });
 
   beforeEach(() => {
-    connection = createConnection();
     registry = new Registry(connection);
   });
 
   afterEach(() => {
-    getProjectionSpy.mockReset();
+    jest.clearAllMocks();
   });
 
-  it('should be able to be instantiated', () => {
+  it('should be newable', () => {
     expect(registry).toBeTruthy();
   });
 
   it('should dynamically add Mongoose Models to the registry', async () => {
 
-    const tc = nestedRefCase(connection);
+    const tc = refCase(connection);
 
     const server = mockServer(tc.schema, {
-      NestedRefType: (...args) => {
+      RefType: (...args) => {
         const info = args[args.length - 1];
         registry.project(info, tc.model.modelName);
         return tc.response;
@@ -46,8 +55,8 @@ describe('registry', () => {
     });
 
     await server.query(`
-      query nestedRef {
-        nestedRef {
+      query ref {
+        ref {
           child {
             foo,
             bar
@@ -63,10 +72,10 @@ describe('registry', () => {
 
   it('should register each Mongoose Model only once', async () => {
 
-    const tc = nestedSelfRefCase(connection);
+    const tc = selfRefCase(connection);
 
     const server = mockServer(tc.schema, {
-      NestedSelfRefType: (...args) => {
+      SelfRefType: (...args) => {
         const info = args[args.length - 1];
         registry.project(info, tc.model.modelName);
         return tc.response;
@@ -76,8 +85,8 @@ describe('registry', () => {
     for (let i = 0; i < 2; i++) {
       await server
         .query(`
-          query nestedSelfRef {
-            nestedSelfRef {
+          query selfRef {
+            selfRef {
               foo,
               bar,
               self {
@@ -103,6 +112,7 @@ describe('registry', () => {
       NestedType: (...args) => {
         info = args[args.length - 1];
         registry.project(info, tc.model.modelName, tc.offset);
+        registry.populate(info, tc.model.modelName, tc.offset);
         return tc.response;
       }
     });
@@ -110,7 +120,7 @@ describe('registry', () => {
     await server.query(`
       query nested {
         nested {
-          parent {
+          ${tc.offset} {
             foo,
             bar
           }
@@ -128,6 +138,14 @@ describe('registry', () => {
       offsetFieldNode.selectionSet.selections,
       fragments,
       tc.model.modelName,
+      registry.registryMap
+    );
+
+    expect(getPopulationSpy).toHaveBeenCalledWith(
+      offsetFieldNode.selectionSet.selections,
+      fragments,
+      tc.model.modelName,
+      connection,
       registry.registryMap
     );
   });
@@ -169,11 +187,51 @@ describe('registry', () => {
     );
   });
 
+  it('should get dotified populatable fields from a complex Mongoose Model', async () => {
+
+    const tc = complexRefCase(connection);
+
+    const server = mockServer(tc.schema, {
+      ComplexRefType: (...args) => {
+        const info = args[args.length - 1];
+        registry.project(info, tc.model.modelName);
+        registry.populate(info, tc.model.modelName);
+        return tc.response;
+      }
+    });
+
+    await server.query(`
+      query complexRef {
+        complexRef {
+          children {
+            child {
+              foo,
+              bar,
+              child {
+                foo,
+                bar,
+                baz { fiz }
+              },
+              baz { fiz }
+            },
+            baz { fiz }
+          },
+          bazzes {
+            fiz
+          }
+        }
+      }
+    `);
+
+    expect(registry.registryMap.get(tc.parentModelName)[0].path).toBe('children.child');
+    expect(registry.registryMap.get(tc.parentModelName)[1].path).toBe('bazzes');
+    expect(registry.registryMap.get(tc.childModelName)[0].path).toBe('child');
+  });
+
   it('should call getProjection on registry.project with correct arguments', async () => {
 
     let info: GraphQLResolveInfo;
 
-    const fields = ['foo', 'bar'];
     const tc = simpleCase(connection);
 
     const server = mockServer(tc.schema, {
@@ -187,7 +245,8 @@ describe('registry', () => {
     await server.query(`
       query simple {
         simple {
-          ${fields.join(',')}
+          foo,
+          bar
         }
       }
     `);
@@ -204,8 +263,41 @@ describe('registry', () => {
     );
   });
 
-  /** @todo finish tests */
-  xit('should call gePopulation on register.populate with correct arguments', () => {
+  it('should call getPopulation on register.populate with correct arguments', async () => {
 
+    let info: GraphQLResolveInfo;
+
+    const tc = refCase(connection);
+
+    const server = mockServer(tc.schema, {
+      RefType: (...args) => {
+        info = args[args.length - 1];
+        registry.populate(info, tc.model.modelName);
+        return tc.response;
+      }
+    });
+
+    await server.query(`
+      query ref {
+        ref {
+          child {
+            foo,
+            bar
+          }
+        }
+      }
+    `);
+
+    const opFieldNode = info.operation.selectionSet.selections[0] as FieldNode;
+    const { fragments } = info;
+
+    expect(getPopulationSpy).toHaveBeenCalled();
+    expect(getPopulationSpy).toHaveBeenCalledWith(
+      opFieldNode.selectionSet.selections,
+      fragments,
+      tc.model.modelName,
+      connection,
+      registry.registryMap
+    );
   });
 });

@@ -161,14 +161,14 @@ export class Registry {
     model
       .schema
       .eachPath((path: string, type: SchemaType) => {
-        fields.push(...this._getPopulatableFields(path, type));
+        fields.push(...this._getPopulatableFields(path, type as SchemaType & SchemaTypeOpts<Document>));
       });
 
     return fields;
   }
 
   /**
-   * Retrieve the populatable fields.
+   * Retrieve the Populatable Fields.
    *
    * @param path          Query Path
    * @param type          Schema Type
@@ -176,51 +176,45 @@ export class Registry {
    */
   private _getPopulatableFields(
     path: string,
-    type: SchemaType,
+    type: SchemaType & SchemaTypeOpts<Document>,
     fields: PopulatableField[] = []
   ): PopulatableField[] {
 
-    const schemaTypeOpts: SchemaTypeOpts<Document> = (type as any);
-
-    if (schemaTypeOpts.ref && typeof schemaTypeOpts.ref === 'string') {
+    if (type.ref && typeof type.ref === 'string') {
 
       if (!fields.map(field => field.path).includes(path)) {
         fields.push({
           path,
-          modelName: schemaTypeOpts.ref
+          modelName: type.ref
         });
       }
 
       return fields;
 
-    } else if (schemaTypeOpts.options && schemaTypeOpts.options.ref) {
+    } else if (type.options && type.options.ref) {
 
       if (!fields.map(f => f.path).includes(path)) {
         fields.push({
           path,
-          modelName: schemaTypeOpts.options.ref
+          modelName: type.options.ref
         });
       }
 
       return fields;
 
-    } else if (schemaTypeOpts.options && schemaTypeOpts.options.type && schemaTypeOpts.options.type instanceof Array) {
+    } else if (type.options && type.options.type && type.options.type instanceof Array) {
 
-      return schemaTypeOpts.options.type
-        .reduce((_: any, nextType: SchemaType) => {
+      return type.options.type
+        .reduce((_: PopulatableField[], nextType: SchemaType & SchemaTypeOpts<Document>) => {
 
-          const nextSchemaTypeOpts: SchemaTypeOpts<Document> = (nextType as any);
-
-          if (nextSchemaTypeOpts.ref && typeof nextSchemaTypeOpts.ref === 'string') {
-
+          if (nextType.ref && typeof nextType.ref === 'string') {
             return this._getPopulatableFields(path, nextType, fields);
-
           } else {
-
             return Object.keys(nextType)
-              .reduce((__, key) => {
-                return this._getPopulatableFields(`${path}.${key}`, nextSchemaTypeOpts[key], fields);
-              }, fields);
+              .reduce((__, key) =>
+                this._getPopulatableFields(`${path}.${key}`, nextType[key], fields),
+                fields
+              );
           }
 
         }, fields);
