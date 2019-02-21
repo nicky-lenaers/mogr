@@ -1,6 +1,8 @@
 # MoGr
 MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.
 
+![Travis (.org) branch](https://img.shields.io/travis/nicky-lenaers/mogr/master.svg?style=flat-square)
+
 **ToDo**
 - [ ] GitHub Issue Template
 - [ ] GitHub Feature Template
