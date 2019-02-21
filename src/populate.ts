@@ -38,9 +38,7 @@ export function getPopulation(
           const value = selection.name.value;
           if (value === '__typename') return population;
 
-          if (!registryMap.has(modelName)) throw new Error(`Model "${modelName}" is not registered`);
           const populatableFields = registryMap.get(modelName) as PopulatableField[];
-
           const localTreePath = localTree.join('.');
 
           if (selection.selectionSet && selection.selectionSet.selections) {
@@ -90,7 +88,7 @@ export function getPopulation(
             population.push({
               path: rootTree[rootTree.length - 1],
               populate: [...getSelectedPopulationByModel(modelName, connection)],
-              select: [value]
+              select: [...getSelectedFieldsByModel(modelName, connection), value]
             });
 
           }

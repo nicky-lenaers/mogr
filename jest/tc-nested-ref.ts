@@ -1,44 +1,55 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { Connection } from 'mongoose';
+import { getParentModel } from './common/parent.model';
 import { getSimpleModel } from './common/simple.model';
 import { simpleResponse } from './common/simple.response';
 import { SimpleType } from './common/simple.type';
 import { TestCase } from './tc';
 
-interface NestedTestCase extends TestCase {
+interface NestedRefTestCase extends TestCase {
   root: string;
 }
 
 /**
- * A Nested Test Case.
+ * A Nested Ref Test Case.
  *
  * @param connection        Mongoose Connection
  * @returns                 Test Case
  */
-export function nestedCase(connection: Connection): NestedTestCase {
+export function nestedRefCase(connection: Connection): NestedRefTestCase {
 
   const root = 'root';
-  const model = getSimpleModel(connection);
+  const simpleModel = getSimpleModel(connection);
+  const model = getParentModel(connection, simpleModel);
 
   const response = {
-    [root]: { ...simpleResponse }
-  };
+    [root]: {
+      child: { ...simpleResponse }
+    }
+  }
 
-  const NestedRootType: GraphQLObjectType = new GraphQLObjectType({
-    name: 'NestedRootType',
+  const NestedRefRootType = new GraphQLObjectType({
+    name: 'NestedRefRootType',
     fields: () => ({
       [root]: {
-        type: SimpleType
+        type: new GraphQLObjectType({
+          name: 'NestedRefParentType',
+          fields: () => ({
+            child: {
+              type: SimpleType
+            }
+          })
+        })
       }
     })
   });
 
   const schema = new GraphQLSchema({
     query: new GraphQLObjectType({
-      name: 'NestedQueries',
+      name: 'NestedRefQueries',
       fields: () => ({
-        nested: {
-          type: NestedRootType,
+        nestedRef: {
+          type: NestedRefRootType,
           resolve: () => response
         }
       })

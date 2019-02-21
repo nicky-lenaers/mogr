@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLSchema } from 'graphql';
+import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { Connection } from 'mongoose';
 import { getParentModel } from './common/parent.model';
 import { getSimpleModel } from './common/simple.model';
@@ -6,30 +6,18 @@ import { simpleResponse } from './common/simple.response';
 import { SimpleType } from './common/simple.type';
 import { TestCase } from './tc';
 
-interface RefTestCase extends TestCase {
-  parentModelName: string;
-  childModelName: string;
-}
-
-/**
- * A Ref Test Case.
- *
- * @param connection        Mongoose Connection
- * @returns                 Test Case
- */
-export function refCase(connection: Connection): RefTestCase {
+export function inlineFragmentRefCase(connection: Connection): TestCase {
 
   const simpleModel = getSimpleModel(connection);
-  const childModelName = simpleModel.modelName;
   const model = getParentModel(connection, simpleModel);
-  const parentModelName = model.modelName;
 
   const response = {
     child: { ...simpleResponse }
-  };
+  }
 
-  const RefType: GraphQLObjectType = new GraphQLObjectType({
-    name: 'RefType',
+  const BarType = new GraphQLObjectType({
+    name: 'BarType',
+    interfaces: () => [FooBaseType],
     fields: () => ({
       child: {
         type: SimpleType
@@ -37,13 +25,27 @@ export function refCase(connection: Connection): RefTestCase {
     })
   });
 
+  const FooBaseType = new GraphQLInterfaceType({
+    name: 'FooBaseType',
+    fields: () => ({
+      child: {
+        type: SimpleType
+      }
+    }),
+    resolveType: () => BarType
+  });
+
   const schema = new GraphQLSchema({
+    types: [
+      FooBaseType,
+      BarType
+    ],
     query: new GraphQLObjectType({
-      name: 'RefQueries',
+      name: 'InlineFragRefmentQueries',
       fields: () => ({
-        ref: {
-          type: RefType,
-          resolve: () => response
+        inlineFragmentRef: {
+          type: FooBaseType,
+          resolve: () => simpleResponse
         }
       })
     })
@@ -52,8 +54,6 @@ export function refCase(connection: Connection): RefTestCase {
   return {
     model,
     response,
-    schema,
-    parentModelName,
-    childModelName
+    schema
   };
 }

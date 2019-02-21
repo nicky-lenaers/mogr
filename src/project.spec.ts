@@ -2,7 +2,6 @@ import { mockServer } from 'graphql-tools';
 import { Connection, createConnection } from 'mongoose';
 import { complexRefCase } from '../jest/tc-complex-ref';
 import { inlineFragmentCase } from '../jest/tc-inline-fragment';
-import { nestedCase } from '../jest/tc-nested';
 import { refCase } from '../jest/tc-ref';
 import { simpleCase } from '../jest/tc-simple';
 import { Registry } from './registry';
@@ -12,11 +11,8 @@ describe('project', () => {
   let connection: Connection;
   let registry: Registry;
 
-  beforeAll(() => {
-    connection = createConnection();
-  });
-
   beforeEach(() => {
+    connection = createConnection();
     registry = new Registry(connection);
   });
 
@@ -68,33 +64,6 @@ describe('project', () => {
         simple {
           foo,
           bar
-        }
-      }
-    `);
-
-    expect(projection).toBe('foo bar');
-  });
-
-  it('should handle offset GraphQL Fields', async () => {
-
-    const tc = nestedCase(connection);
-    let projection: string;
-
-    const server = mockServer(tc.schema, {
-      NestedType: (...args) => {
-        const info = args[args.length - 1];
-        projection = registry.project(info, tc.model.modelName, tc.offset);
-        return tc.response;
-      }
-    });
-
-    await server.query(`
-      query nested {
-        nested {
-          ${tc.offset} {
-            foo,
-            bar
-          }
         }
       }
     `);

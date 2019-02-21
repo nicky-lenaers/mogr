@@ -1,46 +1,9 @@
-import { GraphQLFieldConfig, GraphQLObjectType, GraphQLSchema, GraphQLString } from 'graphql';
-import { Connection, Schema } from 'mongoose';
+import { GraphQLFieldConfig, GraphQLObjectType, GraphQLSchema } from 'graphql';
+import { Connection } from 'mongoose';
+import { getSimpleModel } from './common/simple.model';
+import { simpleResponse } from './common/simple.response';
+import { SimpleType } from './common/simple.type';
 import { TestCase } from './tc';
-
-export const simpleResponse = {
-  foo: 'Foo',
-  bar: 'Bar'
-}
-
-export const SimpleSchema = new Schema({
-  foo: {
-    type: String
-  },
-  bar: {
-    type: String
-  }
-});
-
-export const SimpleType: GraphQLObjectType = new GraphQLObjectType({
-  name: 'SimpleType',
-  fields: () => ({
-    foo: {
-      type: GraphQLString
-    },
-    bar: {
-      type: GraphQLString
-    }
-  })
-});
-
-const simple: GraphQLFieldConfig<object, any> = {
-  type: SimpleType,
-  resolve: () => simpleResponse
-}
-
-const simpleSchema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'SimpleQueries',
-    fields: () => ({
-      simple
-    })
-  })
-});
 
 /**
  * A Simple Test Case.
@@ -50,12 +13,21 @@ const simpleSchema = new GraphQLSchema({
  */
 export function simpleCase(connection: Connection): TestCase {
 
-  const model = connection
-    .model(
-      'SimpleModel',
-      SimpleSchema,
-      'simple'
-    );
+  const simple: GraphQLFieldConfig<object, any> = {
+    type: SimpleType,
+    resolve: () => simpleResponse
+  }
+
+  const simpleSchema = new GraphQLSchema({
+    query: new GraphQLObjectType({
+      name: 'SimpleQueries',
+      fields: () => ({
+        simple
+      })
+    })
+  });
+
+  const model = getSimpleModel(connection);
 
   return {
     model,

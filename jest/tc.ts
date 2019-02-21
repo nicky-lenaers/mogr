@@ -1,5 +1,5 @@
-import { Model, Document } from 'mongoose';
 import { GraphQLSchema } from 'graphql';
+import { Document, Model } from 'mongoose';
 
 export interface TestCase {
   model: Model<Document>;

@@ -109,10 +109,10 @@ describe('registry', () => {
     const tc = nestedCase(connection);
 
     const server = mockServer(tc.schema, {
-      NestedType: (...args) => {
+      SimpleType: (...args) => {
         info = args[args.length - 1];
-        registry.project(info, tc.model.modelName, tc.offset);
-        registry.populate(info, tc.model.modelName, tc.offset);
+        registry.project(info, tc.model.modelName, tc.root);
+        registry.populate(info, tc.model.modelName, tc.root);
         return tc.response;
       }
     });
@@ -120,7 +120,7 @@ describe('registry', () => {
     await server.query(`
       query nested {
         nested {
-          ${tc.offset} {
+          ${tc.root} {
             foo,
             bar
           }
@@ -130,7 +130,7 @@ describe('registry', () => {
 
     const opFieldNode = info.operation.selectionSet.selections[0] as FieldNode;
     const offsetFieldNode = opFieldNode.selectionSet.selections
-      .find(s => s.kind === 'Field' && s.name.value === tc.offset) as FieldNode;
+      .find(s => s.kind === 'Field' && s.name.value === tc.root) as FieldNode;
 
     const { fragments } = info;
 
@@ -157,9 +157,9 @@ describe('registry', () => {
     const tc = nestedCase(connection);
 
     const server = mockServer(tc.schema, {
-      NestedType: (...args) => {
+      NestedRootType: (...args) => {
         info = args[args.length - 1];
-        registry.project(info, tc.model.modelName, `${tc.offset}-invalid`);
+        registry.project(info, tc.model.modelName, `${tc.root}-invalid`);
         return tc.response;
       }
     });
@@ -167,7 +167,7 @@ describe('registry', () => {
     await server.query(`
       query nested {
         nested {
-          parent {
+          ${tc.root} {
             foo,
             bar
           }
