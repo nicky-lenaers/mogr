@@ -4,9 +4,10 @@
   "description": "MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.",
   "main": "lib/index.js",
   "scripts": {
+    "build": "tsc",
+    "docs": "typedoc --out ./documentation",
     "test": "jest --coverage",
-    "test:watch": "npm run test -- --watchAll",
-    "build": "tsc"
+    "test:watch": "npm run test -- --watchAll"
   },
   "repository": {
     "type": "git",
@@ -42,6 +43,7 @@
     "jest": "^23.6.0",
     "ts-jest": "^23.10.5",
     "ts-node": "^8.0.2",
+    "typedoc": "^0.14.2",
     "typescript": "^3.3.3"
   }
 }
