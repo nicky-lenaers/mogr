@@ -1,0 +1,28 @@
+{
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "trailing-comma": false,
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ],
+    "curly": [
+      true,
+      "ignore-same-line"
+    ],
+    "variable-name": [
+      true,
+      "allow-leading-underscore"
+    ]
+  }
+}

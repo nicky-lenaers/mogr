@@ -24,32 +24,6 @@ export class Registry {
   }
 
   /**
-   * Add a Model to the Registry.
-   *
-   * @param modelName       Model Name
-   * @returns               Void
-   */
-  private _addToRegistry(modelName: string): void {
-
-    if (this._registryMap.has(modelName)) return;
-
-    this._registryMap.set(
-      modelName,
-      this._getPopulatableFieldsByModel(this._connection.model(modelName))
-    );
-
-    const nextModelNames = new Set((
-      this._registryMap.get(modelName) as PopulatableField[])
-      .map(field => field.modelName)
-    );
-
-    nextModelNames
-      .forEach(nextModelName => {
-        if (!this._registryMap.has(nextModelName)) this._addToRegistry(nextModelName);
-      });
-  }
-
-  /**
    * Retrieve the Field Projection.
    *
    * @param info            GraphQL Resolve Info
@@ -101,6 +75,32 @@ export class Registry {
       this._connection,
       this._registryMap
     );
+  }
+
+  /**
+   * Add a Model to the Registry.
+   *
+   * @param modelName       Model Name
+   * @returns               Void
+   */
+  private _addToRegistry(modelName: string): void {
+
+    if (this._registryMap.has(modelName)) return;
+
+    this._registryMap.set(
+      modelName,
+      this._getPopulatableFieldsByModel(this._connection.model(modelName))
+    );
+
+    const nextModelNames = new Set((
+      this._registryMap.get(modelName) as PopulatableField[])
+      .map(field => field.modelName)
+    );
+
+    nextModelNames
+      .forEach(nextModelName => {
+        if (!this._registryMap.has(nextModelName)) this._addToRegistry(nextModelName);
+      });
   }
 
   /**
@@ -184,8 +184,8 @@ export class Registry {
 
       if (!fields.map(field => field.path).includes(path)) {
         fields.push({
-          path,
-          modelName: type.ref
+          modelName: type.ref,
+          path
         });
       }
 
@@ -195,8 +195,8 @@ export class Registry {
 
       if (!fields.map(f => f.path).includes(path)) {
         fields.push({
-          path,
-          modelName: type.options.ref
+          modelName: type.options.ref,
+          path
         });
       }
 

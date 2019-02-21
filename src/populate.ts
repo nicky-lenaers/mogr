@@ -126,7 +126,7 @@ export function getPopulation(
         }
       }
     })
-    .reduce(population => population, population);
+    .reduce(currPopulation => currPopulation, population);
 }
 
 /**
