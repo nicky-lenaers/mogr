@@ -1,13 +1,11 @@
 # MoGr
 MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.
 
-![Travis (.org) branch](https://img.shields.io/travis/nicky-lenaers/mogr/master.svg?style=flat-square)
-![Codecov branch](https://img.shields.io/codecov/c/gh/nicky-lenaers/mogr/master.svg?style=flat-square)
+[![Travis (.org) branch](https://img.shields.io/travis/nicky-lenaers/mogr/master.svg?style=flat-square)](https://travis-ci.org/nicky-lenaers/mogr)
+[![Codecov branch](https://img.shields.io/codecov/c/gh/nicky-lenaers/mogr/master.svg?style=flat-square)](https://codecov.io/gh/nicky-lenaers/mogr)
 
 **ToDo**
-- [ ] Update links to existing badges
 - [ ] GitHub Issue Template
-- [ ] Update graphql/mongoose as peer deps
 - [ ] GitHub Feature Template
 - [ ] Finish README
   - [ ] Add Logo
