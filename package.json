@@ -10,7 +10,7 @@
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
     "prepublishOnly": "npm run test",
-    "release": "standard-version",
+    "release": "standard-version --tag-prefix=\"\"",
     "test": "jest --coverage",
     "test:ci": "npm run test && codecov",
     "test:watch": "npm run test -- --watchAll"
