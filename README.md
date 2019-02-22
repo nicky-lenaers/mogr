@@ -12,16 +12,29 @@
 <hr>
 
 **Features**  
-<ul>
-  <li>💥 Automated Mongoose Query Projection and/or Population</li>
-  <li>🔥 Support for GraphQL Fields, Inline Fragments and Fragment Spreads</li>
-  <li>🙏 Support for Mongoose Schema <code>select</code> attribute</li>
-  <li>🙌 Infinitely Recursable</li>
-  <li>🔎 Dynamic Mongoose Model Lookup</li>
-  <li>🔧 Statically Typed using TypeScript</li>
-  <li>👍 No Required Mongoose Plugin</li>
-  <li>😎 No Dependencies</li>
-</ul>
+<table>
+  <tr>
+    <td>💥</td><td>Automated Mongoose Query Projection and/or Population</td>
+  </tr>
+  <tr>
+    <td>🔥</td><td>Support for GraphQL Fields, Inline Fragments and Fragment Spreads</td>
+  </tr>
+  <tr>
+    <td>🙏</td><td>Support for Mongoose Schema <code>select</code> attribute</td>
+  </tr>
+  <tr>
+    <td>🙌</td><td>Infinitely Recursable</td>
+  </tr>
+  <tr>
+    <td>🔎</td><td>Dynamic Mongoose Model Lookup</td>
+  </tr>
+  <tr>
+    <td>🔧</td><td>Statically Typed using TypeScript</td>
+  </tr>
+  <tr>
+    <td>👍</td><td>No Required Mongoose Plugin</td>
+  </tr>
+</table>
 
 # Roadmap
 - [ ] Pagination
