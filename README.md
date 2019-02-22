@@ -11,7 +11,7 @@
 </div>
 <hr>
 
-**Features**  
+## Features
 <table>
   <tr>
     <td>💥</td><td>Automated Mongoose Query Projection and/or Population</td>
@@ -36,7 +36,12 @@
   </tr>
 </table>
 
-# Roadmap
+## Quick Links
+- Check out the [Demo (Coming Soon)](https://github.com/nicky-lenaers/mogr)
+- Read the [MoGr Medium Article (Coming Soon)](https://github.com/nicky-lenaers/mogr)
+- Read the [Documentation (Coming Soon)](https://github.com/nicky-lenaers/mogr)
+
+## Roadmap
 - [ ] Pagination
 
 ### Contributing
