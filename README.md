@@ -11,5 +11,14 @@
 </div>
 <hr>
 
-**Roadmap**
+# Roadmap
 - [ ] Pagination
+
+### Contributing
+[Contributing Guidelines](.github/CONTRIBUTING.md).
+
+### Code of Conduct
+[Code of Conduct](.github/CODE_OF_CONDUCT.md).
+
+### License
+[MIT](/LICENSE)
