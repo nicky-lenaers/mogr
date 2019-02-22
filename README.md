@@ -1,15 +1,14 @@
-# MoGr
-MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.
-
-[![Travis (.org) branch](https://img.shields.io/travis/nicky-lenaers/mogr/master.svg?style=flat-square)](https://travis-ci.org/nicky-lenaers/mogr)
-[![Codecov branch](https://img.shields.io/codecov/c/gh/nicky-lenaers/mogr/master.svg?style=flat-square)](https://codecov.io/gh/nicky-lenaers/mogr)
-
-**ToDo**
-- [ ] Finish README
-  - [ ] Add Logo
-  - [ ] Add Badges
-  - [ ] Add ToC
-  - [ ] Add Medium Article Link
+<div align="center">
+  <img src="media/mogr.png?raw=true" />
+  <br>
+  <br>
+  <a href="https://travis-ci.org/nicky-lenaers/mogr" title="Travis CI - MoGr Build Status"><img alt="Travis CI - MoGr Build Status" src="https://img.shields.io/travis/nicky-lenaers/mogr/master.svg?style=flat-square"></a>
+  <a href="https://codecov.io/gh/nicky-lenaers/mogr" title="CodeCov - MoGr Coverage"><img alt="CodeCov - MoGr Coverage" src="https://img.shields.io/codecov/c/gh/nicky-lenaers/mogr/master.svg?style=flat-square"></a>
+  <br>
+  <br>
+  <h3>Bridging the gap between GraphQL and Mongoose</h3>
+</div>
+<hr>
 
 **Roadmap**
-- [ ] Built-in Pagination
+- [ ] Pagination
