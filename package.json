@@ -1,6 +1,6 @@
 {
   "name": "@nicky-lenaers/mogr",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.",
   "main": "lib/index.js",
   "scripts": {
