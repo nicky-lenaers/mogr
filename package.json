@@ -1,7 +1,7 @@
 {
   "name": "@nicky-lenaers/mogr",
   "version": "1.0.0",
-  "description": "MoGr maps GraphQL AST's to Mongoose Query Projection and/or Population.",
+  "description": "MoGr dynamically maps GraphQL AST's to Mongoose Query Projection and/or Population and provides GraphQL Cursor Pagination.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -13,7 +13,7 @@
     "release": "standard-version --tag-prefix=\"\"",
     "test": "jest --coverage",
     "test:ci": "npm run test && codecov",
-    "test:watch": "npm run test -- --watchAll"
+    "test:watch": "npm run test -- --watchAll --verbose"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,11 @@
   "keywords": [
     "mogr",
     "graphql",
-    "mongoose"
+    "mongoose",
+    "query",
+    "projection",
+    "population",
+    "pagination"
   ],
   "files": [
     "lib/**/*"

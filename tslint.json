@@ -22,7 +22,16 @@
     ],
     "variable-name": [
       true,
-      "allow-leading-underscore"
-    ]
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ],
+    "max-line-length": [
+      true,
+      {
+        "limit": 120,
+        "ignore-pattern": "^import "
+      }
+    ],
+    "object-literal-sort-keys": false
   }
 }
