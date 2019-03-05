@@ -38,8 +38,8 @@
 
 ## Quick Links
 - Check out the [Demo (Coming Soon)](https://github.com/nicky-lenaers/mogr)
+- Read the [Documentation](https://nicky-lenaers.github.io/mogr)
 - Read the [MoGr Medium Article (Coming Soon)](https://github.com/nicky-lenaers/mogr)
-- Read the [Documentation (Coming Soon)](https://github.com/nicky-lenaers/mogr)
 
 ## Roadmap
 - [ ] Pagination Type Configuration
