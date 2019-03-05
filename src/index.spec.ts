@@ -1,4 +1,4 @@
-import { Registry } from './index';
+import { Registry, PageType, PageArgsMap } from './index';
 
 describe('index', () => {
 
@@ -6,4 +6,11 @@ describe('index', () => {
     expect(Registry).toBeTruthy();
   });
 
+  it('should export PageType', () => {
+    expect(PageType).toBeTruthy();
+  });
+
+  it('should export PageArgsMap', () => {
+    expect(PageArgsMap).toBeTruthy();
+  });
 });
