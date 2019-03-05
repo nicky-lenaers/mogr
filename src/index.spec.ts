@@ -1,4 +1,4 @@
-import { Registry, PageType, PageArgsMap } from './index';
+import { Registry, PageType, PageArgsMap, queryPage } from './index';
 
 describe('index', () => {
 
@@ -12,5 +12,9 @@ describe('index', () => {
 
   it('should export PageArgsMap', () => {
     expect(PageArgsMap).toBeTruthy();
+  });
+
+  it('should export queryPage', () => {
+    expect(queryPage).toBeTruthy();
   });
 });

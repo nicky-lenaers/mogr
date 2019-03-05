@@ -1,3 +1,4 @@
-export { Registry } from './registry';
+export { Page, queryPage } from './pagination/query-page';
 export { PageType } from './pagination/types/page';
-export { PageArgsMap } from './pagination/types/page-args';
+export { PageArgs, PageArgsMap } from './pagination/types/page-args';
+export { Registry } from './registry';
