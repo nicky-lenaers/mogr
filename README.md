@@ -57,11 +57,11 @@
     - number options like 'gt', 'gte', 'lt', 'lte'
  -->
 
-### Contributing
+## Contributing
 [Contributing Guidelines](.github/CONTRIBUTING.md).
 
-### Code of Conduct
+## Code of Conduct
 [Code of Conduct](.github/CODE_OF_CONDUCT.md).
 
-### License
+## License
 [MIT](/LICENSE)

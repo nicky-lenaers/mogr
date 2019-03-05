@@ -1,0 +1,7 @@
+* [Home](/)
+* [Motivation](motivation.md)
+* [Getting Started](getting-started.md)
+* [Stories](stories/home.md)
+  * [Projection](stories/projection.md)
+  * [Population](stories/population.md)
+  * [Pagination](stories/pagination.md)
