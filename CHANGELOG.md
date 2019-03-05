@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/nicky-lenaers/mogr/compare/1.0.0...1.1.0) (2019-03-05)
+
+
+### Features
+
+* expose pagination ([#12](https://github.com/nicky-lenaers/mogr/issues/12)) ([18bbe4b](https://github.com/nicky-lenaers/mogr/commit/18bbe4b))
+* graphql cursor pagination ([#10](https://github.com/nicky-lenaers/mogr/issues/10)) ([ee8c152](https://github.com/nicky-lenaers/mogr/commit/ee8c152))
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2019-02-22)
 
