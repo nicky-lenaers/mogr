@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/nicky-lenaers/mogr/compare/1.1.0...1.2.0) (2019-03-05)
+
+
+### Features
+
+* export query page ([#13](https://github.com/nicky-lenaers/mogr/issues/13)) ([f12fb5d](https://github.com/nicky-lenaers/mogr/commit/f12fb5d))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/nicky-lenaers/mogr/compare/1.0.0...1.1.0) (2019-03-05)
 
