@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/nicky-lenaers/mogr/compare/1.2.0...1.2.1) (2019-03-11)
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/nicky-lenaers/mogr/compare/1.1.0...1.2.0) (2019-03-05)
 
