@@ -73,7 +73,8 @@ export function getQueryFilter(filters: PageArgsFilter[]): any[] {
               }
             });
         });
-      queryFilter.push({ $and: filterConditions });
+
+      if (filterConditions.length > 0) queryFilter.push({ $and: filterConditions });
     });
 
   return queryFilter;

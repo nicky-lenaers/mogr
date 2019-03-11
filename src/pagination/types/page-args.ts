@@ -27,7 +27,10 @@ export interface PageArgsFilter {
 }
 
 /** Order By Option */
-export type OrderByOption = { field: string, direction: 'ASC' | 'DESC' };
+export interface OrderByOption {
+  field: string;
+  direction: 'ASC' | 'DESC';
+}
 
 /** Order By Options */
 export type OrderByOptions = OrderByOption[];

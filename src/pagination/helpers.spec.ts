@@ -55,6 +55,11 @@ describe('helpers', () => {
         ]
       }]);
     });
+
+    it('should allow an empty filter', async () => {
+      const queryFilter = getQueryFilter([{}]);
+      expect(queryFilter).toEqual([]);
+    });
   });
 
   describe('decodeCursor', () => {
