@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/nicky-lenaers/mogr/compare/1.2.1...1.3.0) (2019-03-11)
+
+
+### Bug Fixes
+
+* allow empty filter ([#14](https://github.com/nicky-lenaers/mogr/issues/14)) ([7ef50aa](https://github.com/nicky-lenaers/mogr/commit/7ef50aa))
+
+
+### Features
+
+* handle graphql list and id type ([#15](https://github.com/nicky-lenaers/mogr/issues/15)) ([70f4dff](https://github.com/nicky-lenaers/mogr/commit/70f4dff))
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/nicky-lenaers/mogr/compare/1.2.0...1.2.1) (2019-03-11)
 
