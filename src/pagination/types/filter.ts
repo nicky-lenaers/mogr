@@ -1,4 +1,4 @@
-import { GraphQLInputFieldConfigMap, GraphQLInputObjectType, GraphQLInterfaceType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString, GraphQLType } from 'graphql';
+import { GraphQLID, GraphQLInputFieldConfigMap, GraphQLInputObjectType, GraphQLInterfaceType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLOutputType, GraphQLString, GraphQLType } from 'graphql';
 
 /** Filter Contains Type */
 const FilterContainsType = new GraphQLInputObjectType({
@@ -45,12 +45,10 @@ export function FilterType(type: GraphQLObjectType | GraphQLInterfaceType): Grap
 
         const [name, value] = field;
         const filters: GraphQLInputFieldConfigMap = {};
+        const valueType = getValueType(value.type);
 
-        const valueType = value.type instanceof GraphQLNonNull
-          ? value.type.ofType
-          : value.type;
-
-        switch (valueType.toString()) {
+        switch (valueType) {
+          case GraphQLID.name:
           case GraphQLString.name: {
             filters[name] = {
               type: new GraphQLInputObjectType({
@@ -69,4 +67,18 @@ export function FilterType(type: GraphQLObjectType | GraphQLInterfaceType): Grap
       }, {})
     )
   }));
+}
+
+/**
+ * Retrieve the Value Type of a GraphQL Type.
+ *
+ * @param type        GraphQL Type
+ * @returns           GraphQL Type Name
+ */
+function getValueType(type: GraphQLOutputType): string {
+
+  if (type instanceof GraphQLNonNull) return type.ofType.toString();
+  if (type instanceof GraphQLList) return type.ofType.toString();
+
+  return type.toString();
 }

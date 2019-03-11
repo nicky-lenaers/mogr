@@ -1,4 +1,4 @@
-import { GraphQLInterfaceType, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } from 'graphql';
+import { GraphQLID, GraphQLInterfaceType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } from 'graphql';
 import { mockServer } from 'graphql-tools';
 import { FilterType } from './filter';
 
@@ -9,8 +9,10 @@ describe('FilterType', () => {
     const TestType = new GraphQLObjectType({
       name: 'TestType',
       fields: () => ({
+        id: { type: new GraphQLNonNull(GraphQLID) },
         foo: { type: GraphQLString },
-        bar: { type: new GraphQLNonNull(GraphQLString) }
+        bar: { type: new GraphQLNonNull(GraphQLString) },
+        baz: { type: new GraphQLList(GraphQLString) }
       })
     });
 
@@ -28,17 +30,26 @@ describe('FilterType', () => {
       })
     });
 
-    const response = { foo: 'Foo', bar: 'Bar' };
+    const response = { id: '1', foo: 'Foo', bar: 'Bar', baz: ['Baz'] };
     const server = mockServer(schema, { TestType: () => response });
 
     const res = await server.query(`
       query testFilter($filters: [FilterTestType]) {
         testFilter(filters: $filters) {
+          id,
           foo,
-          bar
+          bar,
+          baz
         }
       }
-    `, { filters: [{ foo: { eq: 'Foo' }, bar: { eq: 'Bar' } }] });
+    `, {
+        filters: [{
+          id: { eq: '1' },
+          foo: { eq: 'Foo' },
+          bar: { ne: 'Foor' },
+          baz: { contains: { value: 'BAZ', options: 'i' } }
+        }]
+      });
 
     expect(res).toEqual({ data: { testFilter: response } });
   });
