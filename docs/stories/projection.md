@@ -20,7 +20,7 @@ import { registry } from './registry';
 import { model } from './model';
 ```
 
-Combine the MoGr Registry, Mongoose Model and GraphQL Query to perform MoGr Projection.
+**3. Combine the MoGr Registry, Mongoose Model and GraphQL Query to perform MoGr Projection**
 
 ```js
 import { registry } from './registry';

@@ -21,7 +21,7 @@ $ yarn add @nicky-lenaers/mogr
 ## 2. Setup
 MoGr uses a `Registry` to store information coming from `Mongoose` and `GraphQL`. To initialize MoGr, set up a registry from a `Mongoose` connection.
 ```js
-import { createConnection, model } from 'mongoose';
+import { createConnection } from 'mongoose';
 import { Registry } from '@nicky-lenaers/mogr';
 
 const connection = createConnection({ /*...*/ });
