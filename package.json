@@ -1,6 +1,6 @@
 {
   "name": "@nicky-lenaers/mogr",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "MoGr dynamically maps GraphQL AST's to Mongoose Query Projection and/or Population and provides GraphQL Cursor Pagination.",
   "main": "lib/index.js",
   "scripts": {

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/nicky-lenaers/mogr/compare/1.5.0...1.6.0) (2019-06-14)
+
+
+### Features
+
+* dynamic generic page args ([#18](https://github.com/nicky-lenaers/mogr/issues/18)) ([b832bfc](https://github.com/nicky-lenaers/mogr/commit/b832bfc))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/nicky-lenaers/mogr/compare/1.4.0...1.5.0) (2019-06-14)
 
