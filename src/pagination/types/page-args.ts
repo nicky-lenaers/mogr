@@ -27,23 +27,23 @@ export interface PageArgsFilter {
 }
 
 /** Order By Option */
-export interface OrderByOption {
-  field: string;
-  direction: 'ASC' | 'DESC';
+export interface OrderByOption<S = string, D = ('ASC' | 'DESC')> {
+  field: S;
+  direction: D;
 }
 
 /** Order By Options */
-export type OrderByOptions = OrderByOption[];
+export type OrderByOptions<S = string, D = ('ASC' | 'DESC')> = Array<OrderByOption<S, D>>;
 
 /** Page Arguments */
-export interface PageArgs {
-  filters?: PageArgsFilter[];
+export interface PageArgs<S = string, D = ('ASC' | 'DESC'), F = PageArgsFilter> {
+  filters?: F[];
   queryOptions?: {
     first?: number;
     last?: number;
     before?: string;
     after?: string;
-    orderBy?: OrderByOptions;
+    orderBy?: OrderByOptions<S, D>;
   };
 }
 
