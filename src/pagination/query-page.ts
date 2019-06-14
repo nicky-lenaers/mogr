@@ -49,9 +49,9 @@ export const EMPTY_PAGE: Page<never> = {
  * @param population      Population
  * @returns               Promisified Page
  */
-export async function queryPage<T extends Document>(
+export async function queryPage<T extends Document, P extends PageArgs>(
   query: DocumentQuery<T[], Document>,
-  args: PageArgs,
+  args: P,
   projection: string = '',
   population: ModelPopulateOptions[] = []
 ): Promise<Page<T>> {

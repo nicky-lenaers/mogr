@@ -1,4 +1,8 @@
-import { GraphQLFieldConfigArgumentMap, GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
+import {
+  GraphQLFieldConfigArgumentMap,
+  GraphQLInterfaceType,
+  GraphQLObjectType
+} from 'graphql';
 import { FilterType } from './filter';
 import { QueryOptionsType } from './query-options';
 
@@ -22,21 +26,32 @@ export interface FieldFilter {
 }
 
 /** Page Arguments Filter */
-export interface PageArgsFilter {
-  [key: string]: FieldFilter;
-}
+export type PageArgsFilter<
+  T extends string = string,
+  F extends FieldFilter = FieldFilter
+> = Record<T, F>;
 
 /** Order By Option */
-export interface OrderByOption<S = string, D = ('ASC' | 'DESC')> {
+export interface OrderByOption<
+  S extends string = string,
+  D extends string = 'ASC' | 'DESC'
+> {
   field: S;
   direction: D;
 }
 
 /** Order By Options */
-export type OrderByOptions<S = string, D = ('ASC' | 'DESC')> = Array<OrderByOption<S, D>>;
+export type OrderByOptions<
+  S extends string = string,
+  D extends string = 'ASC' | 'DESC'
+> = Array<OrderByOption<S, D>>;
 
 /** Page Arguments */
-export interface PageArgs<S = string, D = ('ASC' | 'DESC'), F = PageArgsFilter> {
+export interface PageArgs<
+  S extends string = string,
+  D extends string = 'ASC' | 'DESC',
+  F extends PageArgsFilter = PageArgsFilter
+> {
   filters?: F[];
   queryOptions?: {
     first?: number;
@@ -48,7 +63,9 @@ export interface PageArgs<S = string, D = ('ASC' | 'DESC'), F = PageArgsFilter> 
 }
 
 /** Page Arguments Map */
-export function PageArgsMap(type: GraphQLObjectType | GraphQLInterfaceType): GraphQLFieldConfigArgumentMap {
+export function PageArgsMap(
+  type: GraphQLObjectType | GraphQLInterfaceType
+): GraphQLFieldConfigArgumentMap {
   return {
     filters: {
       type: FilterType(type)
